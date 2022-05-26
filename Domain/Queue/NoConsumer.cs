@@ -1,6 +1,6 @@
 namespace monitor_rabbit
 {
-    public class NoConsumer : IQueueRule
+    public class NoConsumer : IRule<QueueDto>
     {
         private ConfigurationRepository _configurationRepository;
 
