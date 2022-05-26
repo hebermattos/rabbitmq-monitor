@@ -9,14 +9,17 @@ namespace monitor_rabbit
         private HttpClient _client;
         private IList<IRule<T>> _rules;
         private IList<IAlert> _alerts;
+        private IConfigurationRepository _configurationRepository;
         protected string UrlRelative;
         protected bool IsList;
 
-        public ManagerBase(IHttpClientFactory httpClientFactory, IList<IRule<T>> rules, IList<IAlert> alerts)
+        public ManagerBase(IConfigurationRepository configurationRepository, IHttpClientFactory httpClientFactory,
+                            IList<IRule<T>> rules, IList<IAlert> alerts)
         {
             _client = httpClientFactory.CreateClient("rabbitmq");
             _rules = rules;
             _alerts = alerts;
+            _configurationRepository = configurationRepository;
         }
 
         public async Task RunAsync()

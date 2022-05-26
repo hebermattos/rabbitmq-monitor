@@ -22,8 +22,12 @@ public class Worker : BackgroundService
     {
         var a1 = new ConsoleLog();
 
-        var r1 = new NoConsumer(new ConfigurationRepository());
-        var q = new QueueManager(_httpClientFactory, new List<IRule<QueueDto>> { r1 }, new List<IAlert> { a1 });
+        var r1 = new ConsumerQuantity(new ConfigurationRepository());
+        var r2 = new QueueType(new ConfigurationRepository());
+
+        var q = new QueueManager(new ConfigurationRepository(), _httpClientFactory, 
+            new List<IRule<QueueDto>> { r1, r2 }, 
+            new List<IAlert> { a1 });
 
         var managers = new List<IManager>();
         managers.Add(q);

@@ -3,9 +3,13 @@ namespace monitor_rabbit
 
     public class ConfigurationRepository : IConfigurationRepository
     {
-        public List<string> GetQueuesNoConsumer()
+        public List<QueueDAO> GetQueuesNoConsumer()
         {
-            return new List<string> { "fila.teste" };
+            return new List<QueueDAO> { new QueueDAO{
+                Consumers = 1,
+                Name = "fila.teste",
+                Type = "asdasdasd"
+            } };
         }
     }
 }
