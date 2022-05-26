@@ -1,6 +1,7 @@
 namespace monitor_rabbit
 {
-    public class ConfigurationRepository
+
+    public class ConfigurationRepository : IConfigurationRepository
     {
         public List<string> GetQueuesNoConsumer()
         {
