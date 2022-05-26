@@ -10,17 +10,19 @@ namespace monitor_rabbit
         private HttpClient _client;
         private IList<IRule<U>> _rules;
         private IList<IAlert> _alerts;
+        private string _urlRelative;
 
-        public ManagerBase(IHttpClientFactory httpClientFactory, IList<IRule<U>> rules, IList<IAlert> alerts)
+        public ManagerBase(IHttpClientFactory httpClientFactory, string urlRelative, IList<IRule<U>> rules, IList<IAlert> alerts)
         {
             _client = httpClientFactory.CreateClient("rabbitmq");
             _rules = rules;
             _alerts = alerts;
+            _urlRelative = urlRelative;
         }
 
         public async Task RunAsync()
         {
-            var response = await _client.GetAsync("http://localhost:15672/api/queues");
+            var response = await _client.GetAsync($"http://localhost:15672/api/{_urlRelative}");
 
             var content = await response.Content.ReadAsStringAsync();
 
