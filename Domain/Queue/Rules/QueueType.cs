@@ -2,16 +2,16 @@ namespace monitor_rabbit
 {
     public class QueueType : IRule<QueueDto>
     {
-        private ConfigurationRepository _configurationRepository;
+        private IQueueConfigurationRepository _configurationRepository;
 
-        public QueueType(ConfigurationRepository configurationRepository)
+        public QueueType(IQueueConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
         }
 
         public string Run(QueueDto queueDto)
         {
-            var queueConfig = _configurationRepository.GetQueuesNoConsumer().FirstOrDefault(x => x.Name.Equals(queueDto.name));
+            var queueConfig = _configurationRepository.GetQueuesConfiguration().FirstOrDefault(x => x.Name.Equals(queueDto.name));
 
             if (queueConfig == null)            
                 return string.Empty;            

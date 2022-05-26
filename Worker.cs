@@ -22,10 +22,10 @@ public class Worker : BackgroundService
     {
         var a1 = new ConsoleLog();
 
-        var r1 = new ConsumerQuantity(new ConfigurationRepository());
-        var r2 = new QueueType(new ConfigurationRepository());
+        var r1 = new ConsumerQuantity(new QueueConfigurationRepository());
+        var r2 = new QueueType(new QueueConfigurationRepository());
 
-        var q = new QueueManager(new ConfigurationRepository(), _httpClientFactory, 
+        var q = new QueueManager(_httpClientFactory, 
             new List<IRule<QueueDto>> { r1, r2 }, 
             new List<IAlert> { a1 });
 

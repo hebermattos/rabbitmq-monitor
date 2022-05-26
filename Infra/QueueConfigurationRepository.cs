@@ -1,9 +1,9 @@
 namespace monitor_rabbit
 {
 
-    public class ConfigurationRepository : IConfigurationRepository
+    public class QueueConfigurationRepository : IQueueConfigurationRepository
     {
-        public List<QueueDAO> GetQueuesNoConsumer()
+        public List<QueueDAO> GetQueuesConfiguration()
         {
             return new List<QueueDAO> { new QueueDAO{
                 Consumers = 1,
