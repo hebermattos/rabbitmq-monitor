@@ -20,8 +20,10 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var r1 = new NoConsumer();
-        var q = new QueueManager(_httpClientFactory, new List<IQueueRule> { r1 });
+        var a1 = new ConsoleLog();
+
+        var r1 = new NoConsumer(new ConfigurationRepository());
+        var q = new QueueManager(_httpClientFactory, new List<IQueueRule> { r1 }, new List<IAlert> { a1 });
 
         var managers = new List<IManager>();
         managers.Add(q);

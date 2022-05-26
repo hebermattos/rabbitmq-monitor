@@ -2,6 +2,6 @@ namespace monitor_rabbit
 {
     public interface IQueueRule
     {
-        void Run(QueueDto queueDto);
+        string Run(QueueDto queueDto);
     }
 }

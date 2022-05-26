@@ -9,11 +9,13 @@ namespace monitor_rabbit
     {
         private HttpClient _client;
         private IList<IQueueRule> _rules;
+        private IList<IAlert> _alerts;
 
-        public QueueManager(IHttpClientFactory httpClientFactory, IList<IQueueRule> rules)
+        public QueueManager(IHttpClientFactory httpClientFactory, IList<IQueueRule> rules, IList<IAlert> alerts)
         {
             _client = httpClientFactory.CreateClient("rabbitmq");
             _rules = rules;
+            _alerts = alerts;
         }
 
         public async Task RunAsync()
@@ -28,7 +30,15 @@ namespace monitor_rabbit
             {
                 foreach (var rule in _rules)
                 {
-                    rule.Run(item);
+                    var mensage = rule.Run(item);
+
+                    if (String.IsNullOrEmpty(mensage))
+                        continue;
+                        
+                    foreach (var alert in _alerts)
+                    {
+                        await alert.Send(mensage);
+                    }
                 }
             }
         }

@@ -1,12 +1,25 @@
-using System;
-
 namespace monitor_rabbit
 {
     public class NoConsumer : IQueueRule
     {
-        public void Run(QueueDto queueDto)
+        private ConfigurationRepository _configurationRepository;
+
+        public NoConsumer(ConfigurationRepository configurationRepository)
         {
-            Console.WriteLine("c: " + queueDto.consumers);
+            _configurationRepository = configurationRepository;
+        }
+
+        public string Run(QueueDto queueDto)
+        {
+            var queues = _configurationRepository.GetQueuesNoConsumer();
+
+            if (!queues.Contains(queueDto.name))
+                return string.Empty;
+
+            if (queueDto.consumers == 0)            
+                return $"queue {queueDto.name} has no consumers";            
+
+            return string.Empty;
         }
     }
 }
