@@ -1,4 +1,6 @@
 using System.Net.Http.Headers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using monitor_rabbit;
 
 IHost host = Host.CreateDefaultBuilder(args)

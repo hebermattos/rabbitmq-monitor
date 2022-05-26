@@ -1,3 +1,5 @@
+using System;
+
 namespace monitor_rabbit
 {
     public class NoConsumer : IQueueRule
