@@ -3,34 +3,33 @@ using Newtonsoft.Json;
 
 namespace monitor_rabbit
 {
-    public abstract class ManagerBase<T,U> : IManager
+    public abstract class ManagerBase<T> : IManager
         where T : class
-        where U : class
     {
         private HttpClient _client;
-        private IList<IRule<U>> _rules;
+        private IList<IRule<T>> _rules;
         private IList<IAlert> _alerts;
-        private string _urlRelative;
+        protected string UrlRelative;
+        protected bool IsList;
 
-        public ManagerBase(IHttpClientFactory httpClientFactory, string urlRelative, IList<IRule<U>> rules, IList<IAlert> alerts)
+        public ManagerBase(IHttpClientFactory httpClientFactory, IList<IRule<T>> rules, IList<IAlert> alerts)
         {
             _client = httpClientFactory.CreateClient("rabbitmq");
             _rules = rules;
             _alerts = alerts;
-            _urlRelative = urlRelative;
         }
 
         public async Task RunAsync()
         {
-            var response = await _client.GetAsync($"http://localhost:15672/api/{_urlRelative}");
+            var response = await _client.GetAsync($"http://localhost:15672/api/{UrlRelative}");
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var itens = JsonConvert.DeserializeObject<T>(content);
-
-            if (itens is IList)
+            if (IsList)
             {
-                foreach (var item in itens as IList<U>)
+                var itens = JsonConvert.DeserializeObject<List<T>>(content);
+
+                foreach (var item in itens as IList<T>)
                 {
                     foreach (var rule in _rules)
                     {
@@ -46,8 +45,23 @@ namespace monitor_rabbit
                     }
                 }
             }
+            else
+            {
+                var item = JsonConvert.DeserializeObject<T>(content);
 
+                foreach (var rule in _rules)
+                {
+                    var mensage = rule.Run(item);
 
+                    if (String.IsNullOrEmpty(mensage))
+                        continue;
+
+                    foreach (var alert in _alerts)
+                    {
+                        await alert.Send(mensage);
+                    }
+                }
+            }
         }
     }
 }
