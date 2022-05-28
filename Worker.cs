@@ -18,13 +18,13 @@ public class Worker : BackgroundService
         var consumerQuantity = new ConsumerQuantity(new QueueConfigurationRepository());
         var queueType = new QueueType(new QueueConfigurationRepository());
 
-        var queue = new QueueManager(_httpClientFactory,
+        var queue = new RuleManager<QueueDto>("queues",_httpClientFactory,
             new List<IRule<QueueDto>> { consumerQuantity, queueType },
             new List<IAlert> { consoleLog });
 
         var nodeRunning = new NodeRunning();
 
-        var node = new NodeManager(_httpClientFactory,
+        var node = new RuleManager<NodeDto>("nodes",_httpClientFactory,
             new List<IRule<NodeDto>> { nodeRunning },
             new List<IAlert> { consoleLog });
 
