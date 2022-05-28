@@ -34,9 +34,10 @@ public class Worker : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            foreach (var manager in managers)            
-                await manager.Run();            
-
+            Parallel.ForEach(managers, async manager =>{
+                 await manager.Run();  
+            });       
+                         
             await Task.Delay(5000, stoppingToken);
         }
     }
