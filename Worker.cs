@@ -30,7 +30,7 @@ public class Worker : BackgroundService
 
         var managers = new List<IRuleManager>();
         managers.Add(queue);
-        managers.Add(node);
+        managers.Add(node);  
 
         while (!stoppingToken.IsCancellationRequested)
         {

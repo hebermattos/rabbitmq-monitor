@@ -1,6 +1,6 @@
 namespace rabbitmq.monitor
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Application
     {
         public string name { get; set; }
@@ -180,47 +180,6 @@ namespace rabbitmq.monitor
         public double rate { get; set; }
     }
 
-    public class ProcUsedDetails
-    {
-        public double rate { get; set; }
-    }
-
-    public class QueueCreatedDetails
-    {
-        public double rate { get; set; }
-    }
-
-    public class QueueDeclaredDetails
-    {
-        public double rate { get; set; }
-    }
-
-    public class QueueDeletedDetails
-    {
-        public double rate { get; set; }
-    }
-
-    public class QueueIndexReadCountDetails
-    {
-        public double rate { get; set; }
-    }
-
-    public class QueueIndexWriteCountDetails
-    {
-        public double rate { get; set; }
-    }
-
-    public class RaOpenFileMetrics
-    {
-        public int ra_log_wal { get; set; }
-        public int ra_log_segment_writer { get; set; }
-    }
-
-    public class RecvBytesDetails
-    {
-        public double rate { get; set; }
-    }
-
     public class NodeDto
     {
         public List<object> partitions { get; set; }
@@ -262,7 +221,7 @@ namespace rabbitmq.monitor
         public DiskFreeDetails disk_free_details { get; set; }
         public int gc_num { get; set; }
         public GcNumDetails gc_num_details { get; set; }
-        public int gc_bytes_reclaimed { get; set; }
+        public long gc_bytes_reclaimed { get; set; }
         public GcBytesReclaimedDetails gc_bytes_reclaimed_details { get; set; }
         public int context_switches { get; set; }
         public ContextSwitchesDetails context_switches_details { get; set; }
@@ -318,6 +277,47 @@ namespace rabbitmq.monitor
         public MetricsGcQueueLength metrics_gc_queue_length { get; set; }
     }
 
+    public class ProcUsedDetails
+    {
+        public double rate { get; set; }
+    }
+
+    public class QueueCreatedDetails
+    {
+        public double rate { get; set; }
+    }
+
+    public class QueueDeclaredDetails
+    {
+        public double rate { get; set; }
+    }
+
+    public class QueueDeletedDetails
+    {
+        public double rate { get; set; }
+    }
+
+    public class QueueIndexReadCountDetails
+    {
+        public double rate { get; set; }
+    }
+
+    public class QueueIndexWriteCountDetails
+    {
+        public double rate { get; set; }
+    }
+
+    public class RaOpenFileMetrics
+    {
+        public int ra_log_wal { get; set; }
+        public int ra_log_segment_writer { get; set; }
+    }
+
+    public class RecvBytesDetails
+    {
+        public double rate { get; set; }
+    }
+
     public class SendBytesDetails
     {
         public double rate { get; set; }
@@ -335,6 +335,7 @@ namespace rabbitmq.monitor
         public int recv_bytes { get; set; }
         public RecvBytesDetails recv_bytes_details { get; set; }
     }
+
 
 
 }
