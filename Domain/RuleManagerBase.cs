@@ -19,36 +19,16 @@ namespace rabbitmq.monitor
             _alerts = alerts;
         }
 
-        public async Task RunAsync()
+        public async Task Run()
         {
             var response = await _client.GetAsync($"http://localhost:15672/api/{UrlRelative}");
 
             var content = await response.Content.ReadAsStringAsync();
 
-            if (IsList)
+            var itens = JsonConvert.DeserializeObject<List<T>>(content);
+
+            foreach (var item in itens as IList<T>)
             {
-                var itens = JsonConvert.DeserializeObject<List<T>>(content);
-
-                foreach (var item in itens as IList<T>)
-                {
-                    foreach (var rule in _rules)
-                    {
-                        var mensage = rule.Run(item);
-
-                        if (String.IsNullOrEmpty(mensage))
-                            continue;
-
-                        foreach (var alert in _alerts)
-                        {
-                            await alert.Send(mensage);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                var item = JsonConvert.DeserializeObject<T>(content);
-
                 foreach (var rule in _rules)
                 {
                     var mensage = rule.Run(item);

@@ -6,8 +6,6 @@ namespace rabbitmq.monitor
         : base(httpClientFactory, rules, alerts)
         {
             base.UrlRelative = "queues";
-            base.IsList = true;
         }
-
     }
 }

@@ -13,24 +13,29 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var a1 = new ConsoleLog();
+        var consoleLog = new ConsoleLog();
 
-        var r1 = new ConsumerQuantity(new QueueConfigurationRepository());
-        var r2 = new QueueType(new QueueConfigurationRepository());
+        var consumerQuantity = new ConsumerQuantity(new QueueConfigurationRepository());
+        var queueType = new QueueType(new QueueConfigurationRepository());
 
-        var q = new QueueManager(_httpClientFactory, 
-            new List<IRule<QueueDto>> { r1, r2 }, 
-            new List<IAlert> { a1 });
+        var queue = new QueueManager(_httpClientFactory,
+            new List<IRule<QueueDto>> { consumerQuantity, queueType },
+            new List<IAlert> { consoleLog });
+
+        var nodeRunning = new NodeRunning();
+
+        var node = new NodeManager(_httpClientFactory,
+            new List<IRule<NodeDto>> { nodeRunning },
+            new List<IAlert> { consoleLog });
 
         var managers = new List<IRuleManager>();
-        managers.Add(q);
+        managers.Add(queue);
+        managers.Add(node);
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            foreach (var manager in managers)
-            {
-                await manager.RunAsync();
-            }
+            foreach (var manager in managers)            
+                await manager.Run();            
 
             await Task.Delay(5000, stoppingToken);
         }
