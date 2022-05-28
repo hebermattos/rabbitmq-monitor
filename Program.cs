@@ -1,5 +1,5 @@
 using System.Net.Http.Headers;
-using monitor_rabbit;
+using rabbitmq.monitor;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

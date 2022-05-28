@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-monitor_rabbit-24D5751E-C780-411C-8ADC-2537FBF11A51</UserSecretsId>
-    <RootNamespace>monitor_rabbit</RootNamespace>
+    <UserSecretsId>dotnet-rabbitmq.monitor-24D5751E-C780-411C-8ADC-2537FBF11A51</UserSecretsId>
+    <RootNamespace>rabbitmq.monitor</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

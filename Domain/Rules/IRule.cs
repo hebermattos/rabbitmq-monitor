@@ -1,4 +1,4 @@
-namespace monitor_rabbit
+namespace rabbitmq.monitor
 {
     public interface IRule<T> where T : class
     {

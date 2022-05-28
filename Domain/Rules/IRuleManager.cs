@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 
-namespace monitor_rabbit
+namespace rabbitmq.monitor
 {
-    public interface IManager
+    public interface IRuleManager
     {
         Task RunAsync();
     }

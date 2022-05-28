@@ -1,9 +1,8 @@
-using System.Collections;
 using Newtonsoft.Json;
 
-namespace monitor_rabbit
+namespace rabbitmq.monitor
 {
-    public abstract class ManagerBase<T> : IManager
+    public abstract class RuleManagerBase<T> : IRuleManager
         where T : class
     {
         private HttpClient _client;
@@ -12,7 +11,7 @@ namespace monitor_rabbit
         protected string UrlRelative;
         protected bool IsList;
 
-        public ManagerBase(IHttpClientFactory httpClientFactory,
+        public RuleManagerBase(IHttpClientFactory httpClientFactory,
                             IList<IRule<T>> rules, IList<IAlert> alerts)
         {
             _client = httpClientFactory.CreateClient("rabbitmq");

@@ -1,11 +1,4 @@
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-namespace monitor_rabbit;
+namespace rabbitmq.monitor;
 
 public class Worker : BackgroundService
 {
@@ -29,7 +22,7 @@ public class Worker : BackgroundService
             new List<IRule<QueueDto>> { r1, r2 }, 
             new List<IAlert> { a1 });
 
-        var managers = new List<IManager>();
+        var managers = new List<IRuleManager>();
         managers.Add(q);
 
         while (!stoppingToken.IsCancellationRequested)
