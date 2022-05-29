@@ -2,22 +2,22 @@ namespace rabbitmq.monitor
 {
     public class ConsumerQuantity : IRule<QueueDto>
     {
-        private IQueueConfigurationRepository _configurationRepository;
+        private RulesConfiguration _rulesConfiguration;
 
-        public ConsumerQuantity(IQueueConfigurationRepository configurationRepository)
+        public ConsumerQuantity(RulesConfiguration rulesConfiguration)
         {
-            _configurationRepository = configurationRepository;
+            _rulesConfiguration = rulesConfiguration;
         }
 
         public string Run(QueueDto queueDto)
         {
-            var queueConfig = _configurationRepository.GetQueuesConfiguration().FirstOrDefault(x => x.Name.Equals(queueDto.name));
+            var queueConfig = _rulesConfiguration.queues.FirstOrDefault(x => x.name.Equals(queueDto.name));
 
             if (queueConfig == null)            
                 return string.Empty;            
 
-            if (queueDto.consumers != queueConfig.Consumers)
-                return $"queue {queueDto.name} doesn't have {queueConfig.Consumers} consumers";
+            if (queueDto.consumers != queueConfig.consumers)
+                return $"queue {queueDto.name} doesn't have {queueConfig.consumers} consumers";
 
             return string.Empty;
         }

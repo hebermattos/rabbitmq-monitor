@@ -1,0 +1,31 @@
+{
+    "rabbitmq":{
+        "url" : "http://localhost:15672",
+        "user": "admin",
+        "password" : "admin"
+    },
+    "webhook":{
+        "url": "asdasdasd",
+        "headers": [
+            {
+                "name" : "asdasd",
+                "value" : "3123123"
+            }
+        ]
+    },
+    "nodes":{
+        "allRunning": true
+    },
+    "queues":[
+        {
+            "name": "foo.queue",
+            "consumers": 2,
+            "type": "durable"
+        },
+        {
+            "name": "bar.queue",
+            "consumers": 1,
+            "type": "durable"
+        }
+    ]
+}

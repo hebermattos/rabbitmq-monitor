@@ -10,12 +10,12 @@ namespace rabbitmq.monitor
         private IList<IAlert> _alerts;
         private string _urlRelative;
 
-        public RuleManager(string urlRelative, IHttpClientFactory httpClientFactory,
-                            IList<IRule<T>> rules, IList<IAlert> alerts)
+        public RuleManager(string urlRelative, IHttpClientFactory httpClientFactory)
         {
+            _rules = new List<IRule<T>>();
+            _alerts = new List<IAlert>();
+
             _httpClientFactory = httpClientFactory;
-            _rules = rules;
-            _alerts = alerts;
             _urlRelative = urlRelative;
         }
 
@@ -44,6 +44,16 @@ namespace rabbitmq.monitor
                     }
                 }
             }
+        }
+
+        public void AddRule(IRule<T> rule)
+        {
+            _rules.Add(rule);
+        }
+
+        public void AddAlert(IAlert alert)
+        {
+            _alerts.Add(alert);
         }
     }
 }

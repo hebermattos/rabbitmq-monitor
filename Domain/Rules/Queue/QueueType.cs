@@ -2,22 +2,22 @@ namespace rabbitmq.monitor
 {
     public class QueueType : IRule<QueueDto>
     {
-        private IQueueConfigurationRepository _configurationRepository;
+        private RulesConfiguration _rulesConfiguration;
 
-        public QueueType(IQueueConfigurationRepository configurationRepository)
+        public QueueType(RulesConfiguration rulesConfiguration)
         {
-            _configurationRepository = configurationRepository;
+            _rulesConfiguration = rulesConfiguration;
         }
 
         public string Run(QueueDto queueDto)
         {
-            var queueConfig = _configurationRepository.GetQueuesConfiguration().FirstOrDefault(x => x.Name.Equals(queueDto.name));
+            var queueConfig = _rulesConfiguration.queues.FirstOrDefault(x => x.name.Equals(queueDto.name));
 
-            if (queueConfig == null)            
-                return string.Empty;            
+            if (queueConfig == null)
+                return string.Empty;
 
-            if (queueDto.arguments.XQueueType != queueConfig.Type)
-                return $"queue {queueDto.name} is not {queueConfig.Type}";
+            if (queueDto.arguments.XQueueType != queueConfig.type)
+                return $"queue {queueDto.name} is not {queueConfig.type}";
 
             return string.Empty;
         }
