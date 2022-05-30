@@ -22,10 +22,12 @@ public class Worker : BackgroundService
         queue.AddRule(new ConsumerQuantity(rulesConfiguration));
         queue.AddRule(new QueueType(rulesConfiguration));
         queue.AddAlert(consoleLog);
+        queue.AddAlert(webhook);
 
         var node = new RuleManager<NodeDto>("nodes", _httpClientFactory);
         node.AddRule(new NodeRunning(rulesConfiguration));
         node.AddAlert(consoleLog);
+        node.AddAlert(webhook);
 
         var managers = new List<IRuleManager>();
         managers.Add(queue);
