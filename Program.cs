@@ -5,9 +5,8 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddHostedService<Worker>();
-        services.AddHttpClient("rabbitmq", x =>
-            { x.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", "YWRtaW46YWRtaW4="); }
-        );
+        services.AddHttpClient("webhook");
+        services.AddHttpClient("rabbitmq");
     })
     .Build();
 

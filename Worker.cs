@@ -16,6 +16,7 @@ public class Worker : BackgroundService
         var rulesConfiguration = JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("rules.json"));
 
         var consoleLog = new ConsoleLog();
+        var webhook = new WebhookSender(rulesConfiguration,_httpClientFactory);
 
         var queue = new RuleManager<QueueDto>("queues", _httpClientFactory);
         queue.AddRule(new ConsumerQuantity(rulesConfiguration));

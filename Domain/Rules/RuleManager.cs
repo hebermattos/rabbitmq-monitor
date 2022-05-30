@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
 namespace rabbitmq.monitor
@@ -22,6 +23,8 @@ namespace rabbitmq.monitor
         public async Task Run()
         {
             var client = _httpClientFactory.CreateClient("rabbitmq");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", "YWRtaW46YWRtaW4="); 
 
             var response = await client.GetAsync($"http://localhost:15672/api/{_urlRelative}");
 

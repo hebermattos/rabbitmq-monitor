@@ -4,12 +4,14 @@ using Newtonsoft.Json;
 
 namespace rabbitmq.monitor
 {
-    public class Webhook : IAlert
+    public class WebhookSender: IAlert
     {
+        private RulesConfiguration _rulesConfiguration;
         private IHttpClientFactory _httpClientFactory;
 
-        public Webhook(IHttpClientFactory httpClientFactory)
+        public WebhookSender(RulesConfiguration rulesConfiguration, IHttpClientFactory httpClientFactory)
         {
+            _rulesConfiguration = rulesConfiguration;
             _httpClientFactory = httpClientFactory;
         }
 
@@ -22,7 +24,10 @@ namespace rabbitmq.monitor
 
             var data = new StringContent(JsonConvert.SerializeObject(webhookData), Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync("asdasd", data);
+            foreach (var header in _rulesConfiguration.webhook.headers)            
+                client.DefaultRequestHeaders.Add(header.name, header.value);            
+
+            var response = await client.PostAsync(_rulesConfiguration.webhook.url, data);
 
             response.EnsureSuccessStatusCode();
         }
