@@ -18,13 +18,13 @@ public class Worker : BackgroundService
         var consoleLog = new ConsoleLog();
         var webhook = new WebhookSender(rulesConfiguration,_httpClientFactory);
 
-        var queue = new RuleManager<QueueDto>("queues", _httpClientFactory);
+        var queue = new RuleManager<QueueDto>(rulesConfiguration, "queues", _httpClientFactory);
         queue.AddRule(new ConsumerQuantity(rulesConfiguration));
         queue.AddRule(new QueueType(rulesConfiguration));
         queue.AddAlert(consoleLog);
         queue.AddAlert(webhook);
 
-        var node = new RuleManager<NodeDto>("nodes", _httpClientFactory);
+        var node = new RuleManager<NodeDto>(rulesConfiguration, "nodes", _httpClientFactory);
         node.AddRule(new NodeRunning(rulesConfiguration));
         node.AddAlert(consoleLog);
         node.AddAlert(webhook);
@@ -40,7 +40,7 @@ public class Worker : BackgroundService
                 await manager.Run();
             });
 
-            await Task.Delay(5000, stoppingToken);
+            await Task.Delay(rulesConfiguration.rabbitmq.interval, stoppingToken);
         }
     }
 }

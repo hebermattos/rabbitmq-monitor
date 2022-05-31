@@ -1,6 +1,7 @@
 {
     "rabbitmq":{
         "url" : "http://localhost:15672",
+        "interval": 60000,
         "user": "admin",
         "password" : "admin"
     },

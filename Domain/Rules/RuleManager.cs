@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace rabbitmq.monitor
@@ -9,13 +10,15 @@ namespace rabbitmq.monitor
         private IHttpClientFactory _httpClientFactory;
         private IList<IRule<T>> _rules;
         private IList<IAlert> _alerts;
+        private RulesConfiguration _rulesConfiguration;
         private string _urlRelative;
 
-        public RuleManager(string urlRelative, IHttpClientFactory httpClientFactory)
+        public RuleManager(RulesConfiguration rulesConfiguration, string urlRelative, IHttpClientFactory httpClientFactory)
         {
             _rules = new List<IRule<T>>();
             _alerts = new List<IAlert>();
 
+            _rulesConfiguration = rulesConfiguration;
             _httpClientFactory = httpClientFactory;
             _urlRelative = urlRelative;
         }
@@ -24,9 +27,11 @@ namespace rabbitmq.monitor
         {
             var client = _httpClientFactory.CreateClient("rabbitmq");
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", "YWRtaW46YWRtaW4="); 
+            var rabbitmqAuthentication = Convert.ToBase64String(Encoding.UTF8.GetBytes(_rulesConfiguration.rabbitmq.user +":"+ _rulesConfiguration.rabbitmq.password)); 
 
-            var response = await client.GetAsync($"http://localhost:15672/api/{_urlRelative}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", rabbitmqAuthentication);
+            
+            var response = await client.GetAsync($"http://{_rulesConfiguration.rabbitmq.url}/api/{_urlRelative}");
 
             var content = await response.Content.ReadAsStringAsync();
 

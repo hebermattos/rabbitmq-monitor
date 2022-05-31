@@ -22,6 +22,7 @@ namespace rabbitmq.monitor
     public class Rabbitmq
     {
         public string url { get; set; }
+        public int interval { get; set; }
         public string user { get; set; }
         public string password { get; set; }
     }
