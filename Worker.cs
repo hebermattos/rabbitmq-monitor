@@ -18,24 +18,24 @@ public class Worker : BackgroundService
         var consoleLog = new ConsoleLog();
         var webhook = new WebhookSender(rulesConfiguration,_httpClientFactory);
 
-        var queue = new RuleManager<QueueDto>(rulesConfiguration, "queues", _httpClientFactory);
-        queue.AddRule(new ConsumerQuantity(rulesConfiguration));
-        queue.AddRule(new QueueType(rulesConfiguration));
-        queue.AddAlert(consoleLog);
-        queue.AddAlert(webhook);
+        var queueRuleManager = new RuleManager<QueueDto>(rulesConfiguration, "queues", _httpClientFactory);
+        queueRuleManager.AddRule(new ConsumerQuantity(rulesConfiguration));
+        queueRuleManager.AddRule(new QueueType(rulesConfiguration));
+        queueRuleManager.AddAlert(consoleLog);
+        queueRuleManager.AddAlert(webhook);
 
-        var node = new RuleManager<NodeDto>(rulesConfiguration, "nodes", _httpClientFactory);
-        node.AddRule(new NodeRunning(rulesConfiguration));
-        node.AddAlert(consoleLog);
-        node.AddAlert(webhook);
+        var nodeRuleManager = new RuleManager<NodeDto>(rulesConfiguration, "nodes", _httpClientFactory);
+        nodeRuleManager.AddRule(new NodeRunning(rulesConfiguration));
+        nodeRuleManager.AddAlert(consoleLog);
+        nodeRuleManager.AddAlert(webhook);
 
-        var managers = new List<IRuleManager>();
-        managers.Add(queue);
-        managers.Add(node);
+        var ruleManagers = new List<IRuleManager>();
+        ruleManagers.Add(queueRuleManager);
+        ruleManagers.Add(nodeRuleManager);
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            Parallel.ForEach(managers, async manager =>
+            Parallel.ForEach(ruleManagers, async manager =>
             {
                 await manager.Run();
             });
