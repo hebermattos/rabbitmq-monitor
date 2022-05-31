@@ -1,6 +1,6 @@
 namespace rabbitmq.monitor
 {
-    public class ConsoleLog : IAlert
+    public class ConsoleLogger : IAlert
     {
         public async Task Send(string mensage)
         {
