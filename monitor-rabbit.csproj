@@ -15,7 +15,7 @@
   </ItemGroup>
 
  <ItemGroup>
-   <None Update="rules.json">
+   <None Update="\configuration\rules.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -13,7 +13,7 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var rulesConfiguration = JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("rules.json"));
+        var rulesConfiguration = JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("configuration/rules.json"));
 
         var consoleLog = new ConsoleLogger();
         var webhook = new WebhookSender(rulesConfiguration,_httpClientFactory);
