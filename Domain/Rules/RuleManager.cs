@@ -31,7 +31,7 @@ namespace rabbitmq.monitor
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", rabbitmqAuthentication);
             
-            var response = await client.GetAsync($"http://{_rulesConfiguration.rabbitmq.url}/api/{_urlRelative}");
+            var response = await client.GetAsync($"{_rulesConfiguration.rabbitmq.url}/api/{_urlRelative}");
 
             var content = await response.Content.ReadAsStringAsync();
 
@@ -46,10 +46,8 @@ namespace rabbitmq.monitor
                     if (String.IsNullOrEmpty(mensage))
                         continue;
 
-                    foreach (var alert in _alerts)
-                    {
-                        await alert.Send(mensage);
-                    }
+                    foreach (var alert in _alerts)                    
+                        await alert.Send(mensage);                    
                 }
             }
         }
