@@ -6,7 +6,7 @@
         "password" : "admin"
     },
     "webhook":{
-        "url": "https://webhook.site/06ccda95-83ad-4702-9b96-e969e2675458",
+        "url": "https://webhook.site/b1d37341-7020-4bf8-80c0-ee6d56d842e6",
         "headers": [
             {
                 "name" : "foo",
@@ -19,7 +19,7 @@
     },
     "queues":[
         {
-            "name": "foo.queue",
+            "name": "fila.teste",
             "consumers": 2,
             "type": "quorum"
         },

@@ -37,3 +37,10 @@ what you can do so far:
     ]
 }
 ```
+webhook raw content example
+
+```json
+{
+  "Message": "queue foo.queue doesn't have 2 consumers"
+}
+```
