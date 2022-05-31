@@ -1,6 +1,7 @@
 what you can do so far:
 - checks all nodes running
 - checks if a queue has X consumers and is of a specific type
+- send alerts via webhook
 
 ```json
 {
