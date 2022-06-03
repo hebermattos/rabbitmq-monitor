@@ -2,16 +2,10 @@ namespace rabbitmq.monitor
 {
     public class ConsumerQuantity : IRule<QueueDto>
     {
-        private RulesConfiguration _rulesConfiguration;
-
-        public ConsumerQuantity(RulesConfiguration rulesConfiguration)
+       
+        public string Run(QueueDto queueDto, RulesConfiguration rulesConfiguration)
         {
-            _rulesConfiguration = rulesConfiguration;
-        }
-
-        public string Run(QueueDto queueDto)
-        {
-            var queueConfig = _rulesConfiguration.queues.FirstOrDefault(x => x.name.Equals(queueDto.name));
+            var queueConfig = rulesConfiguration.queues.FirstOrDefault(x => x.name.Equals(queueDto.name));
 
             if (queueConfig == null)            
                 return string.Empty;            

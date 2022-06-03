@@ -41,7 +41,7 @@ namespace rabbitmq.monitor
             {
                 foreach (var rule in _rules)
                 {
-                    var mensage = rule.Run(item);
+                    var mensage = rule.Run(item, _rulesConfiguration);
 
                     if (String.IsNullOrEmpty(mensage))
                         continue;

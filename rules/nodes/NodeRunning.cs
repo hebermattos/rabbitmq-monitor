@@ -1,17 +1,11 @@
 namespace rabbitmq.monitor
 {
     public class NodeRunning : IRule<NodeDto>
-    {
-        private RulesConfiguration _ruleConfiguration;
+    {       
 
-        public NodeRunning(RulesConfiguration ruleConfiguration)
+        public string Run(NodeDto nodeDto, RulesConfiguration ruleConfiguration)
         {
-            _ruleConfiguration = ruleConfiguration;
-        }
-
-        public string Run(NodeDto nodeDto)
-        {
-            if (!_ruleConfiguration.nodes.allRunning)
+            if (!ruleConfiguration.nodes.allRunning)
                 return string.Empty;
 
             if (!nodeDto.running)
