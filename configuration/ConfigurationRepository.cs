@@ -6,8 +6,7 @@ namespace rabbitmq.monitor
     {
         public async Task<RulesConfiguration> Get()
         {
-            return JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("configuration/rules.json"));
-   
+            return JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("configuration/rules.json"));   
         }
     }
 }
