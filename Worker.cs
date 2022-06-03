@@ -30,7 +30,6 @@ public class Worker : BackgroundService
 
         var nodeRuleManager = new RuleManager<NodeDto>(rulesConfiguration, "nodes", _rabbitmqProvider);
         nodeRuleManager.AddRule(new NodeRunning());
-
         nodeRuleManager.AddAlert(webhook);
 
         if (Debugger.IsAttached)
