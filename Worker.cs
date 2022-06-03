@@ -6,16 +6,18 @@ namespace rabbitmq.monitor;
 public class Worker : BackgroundService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IConfigurationRepository _configurationRepository;
 
-    public Worker(IHttpClientFactory httpClientFactory)
+    public Worker(IHttpClientFactory httpClientFactory, IConfigurationRepository configurationRepository)
     {
         _httpClientFactory = httpClientFactory;
+        _configurationRepository = configurationRepository;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var rulesConfiguration = JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("configuration/rules.json"));
-
+        var rulesConfiguration = await _configurationRepository.Get();
+        
         var consoleLog = new ConsoleLogger();
         var webhook = new WebhookSender(rulesConfiguration, _httpClientFactory);
 
