@@ -2,11 +2,16 @@ using Newtonsoft.Json;
 
 namespace rabbitmq.monitor
 {
-    public class ConfigurationRepository: IConfigurationRepository
+    public class ConfigurationRepository : IConfigurationRepository
     {
         public async Task<RulesConfiguration> Get()
         {
-            return JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("configuration/rules.json"));   
+            var data = JsonConvert.DeserializeObject<RulesConfiguration>(await File.ReadAllTextAsync("configuration/rules.json"));
+
+            if (data == null)
+                throw new NullReferenceException("Rules configuration is null");
+
+            return data;
         }
     }
 }
