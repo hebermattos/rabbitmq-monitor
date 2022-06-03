@@ -1,9 +1,6 @@
-// Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
-    public class Arguments
+public class Arguments
     {
         [JsonProperty("x-queue-type")]
         public string XQueueType { get; set; }
