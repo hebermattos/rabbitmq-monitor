@@ -1,6 +1,5 @@
 namespace rabbitmq.monitor
 {
-  // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Header
     {
         public string name { get; set; }
