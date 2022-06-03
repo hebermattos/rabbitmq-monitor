@@ -7,35 +7,25 @@ namespace rabbitmq.monitor
     public class RuleManager<T> : IRuleManager
         where T : class
     {
-        private IHttpClientFactory _httpClientFactory;
+        private IRabbitmqProvider _rabbitmqProvider;
         private IList<IRule<T>> _rules;
         private IList<IAlert> _alerts;
         private RulesConfiguration _rulesConfiguration;
         private string _urlRelative;
 
-        public RuleManager(RulesConfiguration rulesConfiguration, string urlRelative, IHttpClientFactory httpClientFactory)
+        public RuleManager(RulesConfiguration rulesConfiguration, string urlRelative, IRabbitmqProvider rabbitmqProvider)
         {
             _rules = new List<IRule<T>>();
             _alerts = new List<IAlert>();
 
             _rulesConfiguration = rulesConfiguration;
-            _httpClientFactory = httpClientFactory;
+            _rabbitmqProvider = rabbitmqProvider;
             _urlRelative = urlRelative;
         }
 
         public async Task Run()
         {
-            var client = _httpClientFactory.CreateClient("rabbitmq");
-
-            var rabbitmqAuthentication = Convert.ToBase64String(Encoding.UTF8.GetBytes(_rulesConfiguration.rabbitmq.user +":"+ _rulesConfiguration.rabbitmq.password)); 
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", rabbitmqAuthentication);
-            
-            var response = await client.GetAsync($"{_rulesConfiguration.rabbitmq.url}/api/{_urlRelative}");
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            var itens = JsonConvert.DeserializeObject<List<T>>(content);
+            var itens = await _rabbitmqProvider.GetData<T>(_urlRelative);
 
             foreach (var item in itens)
             {
